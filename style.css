@@ -39,7 +39,8 @@ h1{
     overflow: hidden;
 }
 
-.run-btn{
+.run-btn,
+#submit-inputs-btn{
     width: 100%;
     background: #0070f3;
     color:#fff;
@@ -53,7 +54,8 @@ h1{
     transition: background 0.2s ease;
 }
 
-.run-btn:hover{
+.run-btn:hover,
+#submit-inputs-btn:hover{
     background: #0059c9;
 }
 
@@ -69,4 +71,68 @@ h1{
     color: #e0e0e0;
     max-height: 360px;
     overflow-y: auto;
+}
+
+.CodeMirror{
+    height: 260% !important;
+    font-size: 14px;
+    scrollbar-width: thin;
+    scrollbar-color: #444 #2e2e2e;
+}
+
+.CodeMirror-vscrollbar div,
+.CodeMirror-hscrollbar div{
+    background-color: #444;
+    border-radius: 10px;
+}
+
+.input-group,
+#output{
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    white-space: pre-wrap;
+
+}
+
+.user-input{
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+    background: #333;
+    color: #e0e0e0;
+    margin-top: 4px;
+}
+
+.user-input:focus{
+    border-color: #0070f3;
+}
+
+.inputs-container{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+
+}
+
+.save-btn {
+    width: 100%;
+    background: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 15px;
+    border-radius: 5px;
+    transition: background 0.2s ease;
+}
+
+.save-btn:hover {
+    background: #218838;
 }

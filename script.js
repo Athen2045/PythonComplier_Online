@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Replace each input() call with the corresponding user input
         let inputIndex = 0;
-        code = code.replace(/input\(\s*['"]([^'"]*)['"]\s*\)/g, () => {
+        code = code.replace(/input\(\s*['"]?([^'"]*)['"]?\s*\)/g, () => {
             return `'${inputs[inputIndex++] || ""}'`;
         });
 
@@ -40,9 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const result = await response.json();
-            const output = result.run.output || "No output!";
-
-            // Add the '>' before the output, mimicking terminal behavior
+            const output = result.run.stdout || result.run.output || "No output!";
             outputElement.innerHTML = `> ${output}`;
         } catch (error) {
             outputElement.textContent = "Error: " + error.message;
@@ -56,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
         outputElement.textContent = "Compiling...";
 
         // Check if input() is needed
-        const inputPattern = /input\(\s*['"]([^'"]+)['"]\s*\)/g;
+        const inputPattern = /input\(\s*['"]?([^'"]*)['"]?\s*\)/g;
         const inputPrompts = [...code.matchAll(inputPattern)].map(match => match[1]);
 
         if (inputPrompts.length > 0) {
@@ -79,24 +77,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 input.id = `input-${index}`;
                 input.classList.add('user-input');
 
-                // Append label and input to the input group
                 inputGroup.appendChild(label);
                 inputGroup.appendChild(input);
-
-                // Append input group to the inputs container
                 inputsContainer.appendChild(inputGroup);
             });
 
-            // Append inputs container to the output element
             outputElement.appendChild(inputsContainer);
 
-            // Create and append submit button
             const submitButton = document.createElement('button');
             submitButton.id = 'submit-inputs-btn';
             submitButton.textContent = 'Submit Inputs';
             outputElement.appendChild(submitButton);
 
-            // Attach event listener to the submit button
             submitButton.addEventListener('click', submitInputs);
             return;
         }
@@ -111,9 +103,29 @@ document.addEventListener('DOMContentLoaded', function() {
         executeCode(code, inputs);
     }
 
-    // Add event listener to the run button (Check if it exists before adding)
+    // Add event listener to the run button
     const runButton = document.querySelector(".run-btn");
     if (runButton) {
         runButton.addEventListener("click", compileCode);
     }
+
+    // Function to save the output to a file
+    function saveOutputToFile() {
+        const output = document.getElementById("output").textContent;
+        const blob = new Blob([output], { type: 'text/plain' });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "output.txt";
+        link.click();
+    }
+
+    // Create and append the Save Output button
+    const saveButton = document.createElement('button');
+    saveButton.textContent = 'Save Output';
+    saveButton.classList.add('save-btn');  // Optional: add a class for styling
+    saveButton.addEventListener('click', saveOutputToFile);
+
+    // Append the Save Output button to the container (after output)
+    const container = document.querySelector('.container');
+    container.appendChild(saveButton);
 });
