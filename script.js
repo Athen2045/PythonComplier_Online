@@ -68,6 +68,17 @@ document.addEventListener('DOMContentLoaded', function() {
         await executeCode(code);
     }
 
+    //Function to Execute the code
+    async function executeCode(code, inputs = []) {
+        const outputElement = document.getElementById("output");
+        outputElement.textContent = "Compiling...";
     
+        // Replace input() calls with provided inputs
+        inputs.forEach((input, index) => {
+            code = code.replace(new RegExp(`input\\(\\s*['"]([^'"]+)['"]\\s*\\)`, 'g'), `'${input}'`);
+        });
+    
+        // Now execute the modified code (Execution logic to be added)
+    }
 
 });
